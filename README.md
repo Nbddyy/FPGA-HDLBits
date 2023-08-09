@@ -1,4 +1,4 @@
-# FIFO-HDLBits
+# FPGA-HDLBits
 The Exercise On HDLBits
 
 中科学习期间找的训练题
