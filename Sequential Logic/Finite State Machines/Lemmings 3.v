@@ -22,55 +22,57 @@ module top_module(
     /*state transition logic*/
     always@(posedge clk or posedge areset) begin
         if(areset) begin
-            state = LEFT;
-            state_latch = LEFT;
+            state <= LEFT;
+            state_latch <= LEFT;
         end else begin
             case(state) 
                 LEFT : begin
                     if(!ground) begin
-                    	state = FALL;
-                        state_latch = state;
+                    	state <= FALL;
+                        state_latch <= state;
                     end else if(dig) begin
-                        state = DIG;
+                        state <= DIG;
+                        state_latch <= state;
                     end else if(bump_left) begin
-                    	state = RIGHT; 
+                    	state <= RIGHT; 
                     end else begin
-                        state = LEFT;
-                        state_latch = state_latch;
+                        state <= LEFT;
+                        state_latch <= state_latch;
                     end
                 end
                 
                 RIGHT : begin
                		if(!ground) begin
-                    	state = FALL;
-                        state_latch = state;
+                    	state <= FALL;
+                        state_latch <= state;
                     end else if(dig) begin
-                        state = DIG;
+                        state <= DIG;
+                        state_latch <= state;
                     end else if(bump_right) begin
-                    	state = LEFT; 
+                    	state <= LEFT; 
                     end else begin
-                        state = RIGHT;
-                        state_latch = state_latch;
+                        state <= RIGHT;
+                        state_latch <= state_latch;
                     end
                 end
                 
                 DIG : begin
                     if(!ground) begin
-                    	state = FALL; 
+                    	state <= FALL; 
                     end else begin
-                       	state = DIG; 
+                       	state <= DIG; 
                     end
                 end
                 
                 FALL : begin
                     if(ground) begin
-                        state = state_latch;
+                        state <= state_latch;
                     end else begin
-                    	state = FALL; 
+                    	state <= FALL; 
                     end
                 end
                 
-                default : state = LEFT;
+                default : state <= LEFT;
                 
         	endcase
         end 
@@ -79,36 +81,36 @@ module top_module(
     /*output walk_left*/
     always@(*) begin
         if(areset) begin
-            walk_left <= 1'd1; 
+            walk_left = 1'd1; 
         end else begin
-            walk_left <= (state == LEFT) ? 1'd1 : 1'd0; 
+            walk_left = (state == LEFT) ? 1'd1 : 1'd0; 
         end
     end
     
     /*output walk_right*/
     always@(*) begin
         if(areset) begin
-            walk_right <= 1'd0; 
+            walk_right = 1'd0; 
         end else begin
-            walk_right <= (state == RIGHT) ? 1'd1 : 1'd0; 
+            walk_right = (state == RIGHT) ? 1'd1 : 1'd0; 
         end
     end
     
     /*output aaah*/
     always@(*) begin
         if(areset) begin
-            aaah <= 1'd0; 
+            aaah = 1'd0; 
         end else begin
-            aaah <= (state == FALL) ? 1'd1 : 1'd0; 
+            aaah = (state == FALL) ? 1'd1 : 1'd0; 
         end
     end
     
     /*output digging*/
     always@(*) begin
         if(areset) begin
-            digging <= 1'd0; 
+            digging = 1'd0; 
         end else begin
-            digging <= (state == DIG) ? 1'd1 : 1'd0; 
+            digging = (state == DIG) ? 1'd1 : 1'd0; 
         end
     end
     
